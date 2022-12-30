@@ -2,15 +2,17 @@
 
 Token* tokenize(FILE* fp)
 {
-	char* code = calloc(TEXT_SIZE,sizeof(char));
+	char* code = calloc(TEXT_SIZE, sizeof(char));
+	char* ptr = code;
 	fp2str(code, fp);
 
 	printf("トークナイズ開始\n");
 	Token* curToken = calloc(1,sizeof(Token));
-	while (code != NULL)
+	Token* head = curToken;
+	while ((*code) != '\0')
 	{
 		skipBlank(&code);
-		//数値の場合
+
 		if (isdigit(*code))
 		{
 			setNumToken(&curToken,&code);
@@ -25,6 +27,8 @@ Token* tokenize(FILE* fp)
 		}
 	}
 	printf("トークナイズ終了\n");
-	free(code);
+	free(ptr);
 	fclose(fp);
+
+	return head;
 }

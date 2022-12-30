@@ -58,6 +58,10 @@ bool isSymbol(char** input)
 	{
 		return true;
 	}
+	else if ((**input) == ';')
+	{
+		return true;
+	}
 
 	return false;
 }
@@ -72,7 +76,7 @@ void setSymToken(Token** curToken, char** code)
 }
 char* getSymbol(char** code)
 {
-	char* str = calloc(1, sizeof(MAX_SYMBOL_SIZE + 1));
+	char* str = calloc(MAX_SYMBOL_SIZE + 1, sizeof(char));
 	char* head = str;
 
 	while (isSymbol(code))
@@ -82,6 +86,6 @@ char* getSymbol(char** code)
 		(*code)++;
 	}
 
-	*str = '\0';
+	(*str) = '\0';
 	return head;
 }

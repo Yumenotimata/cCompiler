@@ -128,12 +128,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Compiler.c" />
+    <ClCompile Include="Parse.c" />
+    <ClCompile Include="ParseTools.c" />
     <ClCompile Include="Tokenizer.c" />
     <ClCompile Include="Tokenizer.h" />
     <ClCompile Include="TokenizeTools.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Compiler.h" />
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="ParseTools.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenizeTools.h" />
   </ItemGroup>
