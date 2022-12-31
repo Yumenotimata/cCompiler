@@ -128,6 +128,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cabinet.c" />
+    <ClCompile Include="CodeGenerator.c" />
+    <ClCompile Include="CodeGeneratorTools.c" />
     <ClCompile Include="Compiler.c" />
     <ClCompile Include="Parse.c" />
     <ClCompile Include="ParseTools.c" />
@@ -137,6 +139,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cabinet.h" />
+    <ClInclude Include="CodeGenerator.h" />
+    <ClInclude Include="CodeGeneratorTools.h" />
     <ClInclude Include="Compiler.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ParseTools.h" />

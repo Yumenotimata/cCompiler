@@ -8,5 +8,6 @@ int main(void)
 	Cabinet* cabinet = initCabinet();
 	Token* token = tokenize(text);
 	Node* node = parse(&token,&cabinet);
+	GenerateCode(node, &cabinet);
 	return 0;
 }

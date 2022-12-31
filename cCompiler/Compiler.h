@@ -13,6 +13,8 @@
 #include "Cabinet.h"
 #include "Parser.h"
 #include "ParseTools.h"
+#include "CodeGenerator.h"
+#include "CodeGeneratorTools.h"
 
 #define TEXT_SIZE 1024
 #define MAX_SYMBOL_SIZE 5
