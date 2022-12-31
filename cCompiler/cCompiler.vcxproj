@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Cabinet.c" />
     <ClCompile Include="Compiler.c" />
     <ClCompile Include="Parse.c" />
     <ClCompile Include="ParseTools.c" />
@@ -135,6 +136,7 @@
     <ClCompile Include="TokenizeTools.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cabinet.h" />
     <ClInclude Include="Compiler.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ParseTools.h" />

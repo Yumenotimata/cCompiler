@@ -26,6 +26,7 @@ Token* tokenize(FILE* fp)
 			continue;
 		}
 	}
+	curToken->kind = TK_END;
 	printf("トークナイズ終了\n");
 	free(ptr);
 	fclose(fp);
