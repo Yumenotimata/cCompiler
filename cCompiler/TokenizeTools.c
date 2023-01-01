@@ -87,12 +87,20 @@ char* getSymbol(char** code)
 	char* str = calloc(MAX_SYMBOL_SIZE + 1, sizeof(char));
 	char* head = str;
 
+	if ((**code) == ')')
+	{
+		*str = ')';
+		*(str + 1) = '\0';
+		(*code)++;
+		return str;
+	}
+	
 	while (isSymbol(code))
 	{
 		(*str) = (**code);
 		str++;
 
-		if ((*((*code) + 1)) == '('|| (*((*code)+1))== ')')
+		if ((*((*code) + 1)) == '('||(*((*code)+1))== ')')
 		{
 			(*code)++;
 			break;
