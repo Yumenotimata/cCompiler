@@ -62,6 +62,14 @@ bool isSymbol(char** input)
 	{
 		return true;
 	}
+	else if ((**input) == '(')
+	{
+		return true;
+	}
+	else if ((**input) == ')')
+	{
+		return true;
+	}
 
 	return false;
 }
@@ -83,6 +91,12 @@ char* getSymbol(char** code)
 	{
 		(*str) = (**code);
 		str++;
+
+		if ((*((*code) + 1)) == '('|| (*((*code)+1))== ')')
+		{
+			(*code)++;
+			break;
+		}
 		(*code)++;
 	}
 

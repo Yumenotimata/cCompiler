@@ -16,8 +16,18 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 				node = add(curToken, curCabinet,node);
 			}
 		}
-		
-		(*curToken) = (*curToken)->next;
+		if((*curToken)->kind == TK_SYMBOL)
+		{
+			if (isSameString((*curToken)->str, "("))
+			{//(‚©‚çn‚Ü‚é®‚Ì—áŠOˆ—
+				node = add(curToken, curCabinet, node);
+			}
+			if (isSameString((*curToken)->str, ";"))
+			{
+				(*curToken) = (*curToken)->next;
+			}		
+		}
+
 	}
 
 	
@@ -47,20 +57,35 @@ Node* mul(Token** curToken, Cabinet** curCabinet,Node *curNode)
 
 			continue;
 		}
-		else
-		{
-			break;
-		}
+		
+		
+		break;
 	}
 	return node;
 }
 Node* primary(Token** curToken, Cabinet** curCabinet, Node* curNode)
 {
 	Node* node = NULL;
+	if ((*curToken)->kind == TK_SYMBOL)
+	{
+		if (isSameString((*curToken)->str, "("))
+		{
+			(*curToken) = (*curToken)->next;
+			node = add(curToken, curCabinet, curNode);
+			printf("returned %s\n", (*curToken)->str);
+			(*curToken) = (*curToken)->next;
+			return node;
+		}
+		else
+		{
+			printf("parse error\n");
+			exit(1);
+		}
+	}
 	if ((*curToken)->kind == TK_NUM)
 	{
+
 		node = createNumNode((*curToken)->val);
-		printf("%d\n", (*curToken)->val);
 		(*curToken) = (*curToken)->next;
 		return node;
 	}
@@ -84,13 +109,12 @@ Node* add(Token** curToken, Cabinet** curCabinet, Node* curNode)
 			(*curToken) = (*curToken)->next;
 			Node* rhsNode = mul(curToken, curCabinet, curNode);
 			node = createNewNode(node, rhsNode, ND_SUB);
-
 			continue;
 		}
-		else
-		{
-			break;
-		}
+		
+		
+		break;
+		
 	}
 	//Še•ªß‚ğ‚Â‚È‚°‚é“­‚«
 	Node* ptr = node;

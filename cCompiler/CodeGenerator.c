@@ -10,5 +10,11 @@ void GenerateCode(Node* curNode, Cabinet** curCabinet)
 	GenerateCode(curNode->lhs, curCabinet);
 	GenerateCode(curNode->rhs, curCabinet);
 
-	printf("%s\n", curNode->kind);
+	if (ifCalculation(curNode))
+	{
+		genCalculation(curNode);
+		return;
+	}
+		
+	return;
 }
