@@ -25,6 +25,13 @@ Token* tokenize(FILE* fp)
 			makeNewToken(&curToken);
 			continue;
 		}
+		if (isString(&code))
+		{
+			setStrToken(&curToken, &code);
+			makeNewToken(&curToken);
+			continue;
+		}
+		//(code)++;
 	}
 	curToken->kind = TK_END;
 	printf("トークナイズ終了\n");

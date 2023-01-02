@@ -29,3 +29,38 @@ Node* createNewNode(Node* lhs, Node* rhs, char* kind)
 	node->kind = kind;
 	return node;
 }
+
+Node* createNewTypeNode(Node* lhs, Node* rhs, char* typeName)
+{
+	Node* node = calloc(1, sizeof(Node));
+	node->lhs = lhs;
+	node->rhs = rhs;
+	node->kind = ND_TYPE;
+	return node;
+}
+
+char* getTypeName(Token** curToken)
+{
+	for (int i = 0; i < TYPE_NUMBER; i++)
+	{
+		if (isSameString((*curToken)->str, typeNameList[i]))
+		{
+			return typeNameList[i];
+		}
+	}
+
+	printf("ŠÖ”:getTypeName:‘¶Ý‚µ‚È‚¢Œ^‚Å‚·\n");
+}
+
+Node* createVariableNode(Token** opToken, Cabinet** curCab)
+{
+	Node* retNode = calloc(1, sizeof(Node));
+	setCabinet(curCab, (*opToken)->str);
+	retNode->cabinet = (*curCab);
+	retNode->kind = ND_VAL;
+	retNode->rhs = NULL;
+	retNode->lhs = NULL;
+	makeNewCabinet(curCab);
+
+	return retNode;
+}

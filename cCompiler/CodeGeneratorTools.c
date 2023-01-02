@@ -5,11 +5,79 @@ void genCalculation(Node* curNode)
 	if (curNode->lhs->kind != ND_NUM)
 	{
 		printf("	pop rax\n");
-		if (curNode->rhs->kind != ND_NUM)
-		{
+	}
+	else
+	{
+		printf("	mov rax,%d\n", curNode->lhs->val);
+	}
 
+	if (curNode->rhs->kind != ND_NUM)
+	{
+		printf("	pop rdi\n");
+	}
+	else
+	{
+		printf("	mov rdi,%d\n", curNode->rhs->val);
+	}
+
+	//—¼•Ó‚ª”‚Å‚Í‚È‚¢‚Æ‚«‚Ì—áŠOˆ—
+	if (curNode->lhs->kind != ND_NUM && curNode->rhs->kind != ND_NUM)
+	{
+		if (curNode->kind == ND_KAKE)
+		{
+			printf("	mul rdi,rax\n");
+			printf("	push rdi\n");
+			return;
+		}
+		if (curNode->kind == ND_WARI)
+		{
+			printf("	div rdi,rax\n");
+			printf("	push rdi\n");
+			return;
+		}
+		if (curNode->kind == ND_ADD)
+		{
+			printf("	add rdi,rax\n");
+			printf("	push rdi\n");
+			return;
+		}
+		if (curNode->kind == ND_SUB)
+		{
+			printf("	sub rdi,rax\n");
+			printf("	push rdi\n");
+			return;
 		}
 	}
+	else//’Êíˆ—
+	{
+		if (curNode->kind == ND_KAKE)
+		{
+			printf("	mul rax,rdi\n");
+			printf("	push rax\n");
+			return;
+		}
+		if (curNode->kind == ND_WARI)
+		{
+			printf("	div rax,rdi\n");
+			printf("	push rax\n");
+			return;
+		}
+		if (curNode->kind == ND_ADD)
+		{
+			printf("	add rax,rdi\n");
+			printf("	push rax\n");
+			return;
+		}
+		if (curNode->kind == ND_SUB)
+		{
+			printf("	sub rax,rdi\n");
+			printf("	push rax\n");
+			return;
+		}
+	}
+
+	
+
 }
 	
 	bool ifCalculation(Node * curNode)

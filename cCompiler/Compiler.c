@@ -10,7 +10,7 @@ int main(void)
 	Token* ptr = token;
 	while (token != NULL)
 	{
-		if (token->kind == TK_SYMBOL)
+		if (token->kind == TK_SYMBOL ||token->kind == TK_STR)
 		{
 			printf("%s\n", token->str);
 		}
@@ -22,6 +22,6 @@ int main(void)
 	}
 	token = ptr;
 	Node* node = parse(&token,&cabinet);
-	GenerateCode(node, &cabinet);
+	//GenerateCode(node, &cabinet);
 	return 0;
 }

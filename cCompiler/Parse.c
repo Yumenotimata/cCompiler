@@ -5,6 +5,10 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 	printf("パース開始\n");
 	Node* node = NULL;
 
+
+	//プロローグ
+	
+
 	while ((*curToken)->kind != TK_END)
 	{
 		if ((*curToken)->kind == TK_NUM)
@@ -16,6 +20,8 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 				node = add(curToken, curCabinet,node);
 			}
 		}
+
+
 		if((*curToken)->kind == TK_SYMBOL)
 		{
 			if (isSameString((*curToken)->str, "("))
@@ -26,6 +32,15 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 			{
 				(*curToken) = (*curToken)->next;
 			}		
+		}
+
+
+		if ((*curToken)->kind == TK_STR)
+		{
+			if (isSameString((*curToken)->str, "int"))
+			{
+				node = initializetion(curToken, curCabinet, node);
+			}
 		}
 
 	}
@@ -129,4 +144,15 @@ Node* add(Token** curToken, Cabinet** curCabinet, Node* curNode)
 	node->lhs = curNode;
 
 	return ptr;
+}
+
+Node* initializetion(Token** curToken, Cabinet** curCabinet, Node* curNode)
+{
+	Node* node = calloc(1, sizeof(Node));
+	node->kind = ND_TYPE;
+	node->str = getTypeName(curToken);
+	node->rhs = NULL;
+	(*curToken) = (*curToken)->next;
+	node->lhs = createVariableNode(curToken,curCabinet);
+	return node;
 }

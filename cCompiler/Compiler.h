@@ -15,6 +15,7 @@
 #include "ParseTools.h"
 #include "CodeGenerator.h"
 #include "CodeGeneratorTools.h"
+#include "TypeList.h"
 
 #define TEXT_SIZE 1024
 #define MAX_SYMBOL_SIZE 5
@@ -22,10 +23,13 @@
 /*
 * コード　＝　（構文　”；”）*
 * 構文　＝　（式）*
-* 式　＝　加減
+* 式　＝　加減|初期化|代入
 * 加減　＝　乗除（”+”乗除｜”ー”乗除）*
 * 乗除　＝　数要素（”*”数要素｜”/”数要素）*
 * 数要素　＝　数値｜”（”式”）”
+* 初期化　＝　型名 変数名
+* 型名　＝　"int"|"char"
+* 代入　＝　変数名　”＝”式
 */
 
 #endif

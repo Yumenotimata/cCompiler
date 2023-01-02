@@ -75,13 +75,15 @@ bool isSymbol(char** input)
 }
 void setStrToken(Token** curToken, char** code)
 {
-	
+	(*curToken)->kind = TK_STR;
+	(*curToken)->str = getString(code);
 }
 void setSymToken(Token** curToken, char** code)
 {
 	(*curToken)->kind = TK_SYMBOL;
 	(*curToken)->str = getSymbol(code);
 }
+
 char* getSymbol(char** code)
 {
 	char* str = calloc(MAX_SYMBOL_SIZE + 1, sizeof(char));
@@ -110,4 +112,34 @@ char* getSymbol(char** code)
 
 	(*str) = '\0';
 	return head;
+}
+
+char* getString(char** code)
+{
+	char* string = (char*)calloc(32, sizeof(char));
+
+	int readCount = 0;
+
+	while (isString(code))
+	{
+		(*string) = (**code);
+		string++;
+		(*code)++;
+		readCount++;
+	}
+	(*string) = '\0';
+	string -= readCount;
+	skipBlank(code);
+
+	return string;
+}
+
+bool isString(char** input)
+{
+	if (((**input) >= 'a' && (**input) <= 'z') || ((**input) >= 'A' && (**input) <= 'Z'))
+	{
+		return true;
+	}
+
+	return false;
 }

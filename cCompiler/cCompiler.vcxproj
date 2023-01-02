@@ -136,6 +136,7 @@
     <ClCompile Include="Tokenizer.c" />
     <ClCompile Include="Tokenizer.h" />
     <ClCompile Include="TokenizeTools.c" />
+    <ClCompile Include="TypeList.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cabinet.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="ParseTools.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenizeTools.h" />
+    <ClInclude Include="TypeList.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Code.txt" />

@@ -9,5 +9,7 @@ void setSymToken(Token** curToken, char** code);
 void makeNewToken(Token** curToken);
 bool isSymbol(char** input);
 char* getSymbol(char** code);
+bool isString(char** input);
+char* getString(char** code);
 
 #endif
