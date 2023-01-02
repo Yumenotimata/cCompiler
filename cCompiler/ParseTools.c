@@ -11,6 +11,20 @@ bool isSameString(char *string,char *cmpString)
 
 }
 
+bool isVariableType(Token **curToken)
+{
+	for(int i = 0; i < TYPE_NUMBER; i++)
+	{
+		if (isSameString((*curToken)->str, typeNameList[i]))
+		{
+			printf("%s and %s are same string\n", (*curToken)->str, typeNameList[i]);
+			return true;
+		}
+	}
+	printf("return false\n");
+	return false;
+}
+
 Node* createNumNode(int val)
 {
 	Node* node = calloc(1, sizeof(Node));
@@ -45,11 +59,12 @@ char* getTypeName(Token** curToken)
 	{
 		if (isSameString((*curToken)->str, typeNameList[i]))
 		{
+			printf("return %s\n", typeNameList[i]);
 			return typeNameList[i];
 		}
+		printf("ä÷êî:getTypeName:looking for:%s\n", (*curToken)->str);
 	}
-
-	printf("ä÷êî:getTypeName:ë∂ç›ÇµÇ»Ç¢å^Ç≈Ç∑\n");
+	printf("\nä÷êî:getTypeName:ë∂ç›ÇµÇ»Ç¢å^Ç≈Ç∑\n");
 }
 
 Node* createVariableNode(Token** opToken, Cabinet** curCab)

@@ -10,6 +10,7 @@
 #define ND_WARI "ND_WARI"
 #define ND_TYPE "ND_TYPE"
 #define ND_VAL "ND_VAL"
+#define ND_INIT "ND_INIT"
 
 typedef struct Node Node;
 struct Node

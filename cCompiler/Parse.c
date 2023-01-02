@@ -5,9 +5,7 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 	printf("パース開始\n");
 	Node* node = NULL;
 
-
 	//プロローグ
-	
 
 	while ((*curToken)->kind != TK_END)
 	{
@@ -37,9 +35,22 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 
 		if ((*curToken)->kind == TK_STR)
 		{
-			if (isSameString((*curToken)->str, "int"))
+			//変数の初期化の処理
+			if (isVariableType(curToken));
 			{
 				node = initializetion(curToken, curCabinet, node);
+				continue;
+			}
+
+			//変数の代入の処理
+			if (serchCabinet(curCabinet,(*curToken)->str))
+			{
+				printf("oknari\n");
+				exit(1);
+			}
+			else
+			{
+				printf("missed\n");
 			}
 		}
 
@@ -149,10 +160,19 @@ Node* add(Token** curToken, Cabinet** curCabinet, Node* curNode)
 Node* initializetion(Token** curToken, Cabinet** curCabinet, Node* curNode)
 {
 	Node* node = calloc(1, sizeof(Node));
-	node->kind = ND_TYPE;
+	node->kind = ND_INIT;
 	node->str = getTypeName(curToken);
 	node->rhs = NULL;
 	(*curToken) = (*curToken)->next;
 	node->lhs = createVariableNode(curToken,curCabinet);
+	(*curToken) = (*curToken)->next;
+	(*curToken) = (*curToken)->next;
+	node->lhs->lhs = curNode;
+	node->lhs->rhs = NULL;
 	return node;
+}
+
+Node* assign(Token** curToken, Cabinet** curCabinet, Node* curNode)
+{
+	Node* node = calloc(1, sizeof(Node));
 }

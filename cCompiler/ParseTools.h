@@ -2,6 +2,7 @@
 #define __PARSE_TOOLS_H
 
 bool isSameString(char* string, char* cmpString);
+bool isVariableType(Token **curToken);
 Node* createNumNode(int val);
 Node* createNewNode(Node* lhs, Node* rhs, char* kind);
 char* getTypeName(Token** curToken);
