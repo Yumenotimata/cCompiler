@@ -36,12 +36,11 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 		if ((*curToken)->kind == TK_STR)
 		{
 			//•Ï”‚Ì‰Šú‰»‚Ìˆ—
-			if (isVariableType(curToken));
+			if (isVariableType(curToken))
 			{
 				node = initializetion(curToken, curCabinet, node);
 				continue;
 			}
-
 			//•Ï”‚Ì‘ã“ü‚Ìˆ—
 			if (serchCabinet(curCabinet,(*curToken)->str))
 			{
