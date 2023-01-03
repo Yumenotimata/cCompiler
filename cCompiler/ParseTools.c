@@ -35,6 +35,16 @@ Node* createNumNode(int val)
 	return node;
 }
 
+Node* createStrNode(char *str, char* kind)
+{
+	Node* node = calloc(1, sizeof(Node));
+	node->rhs = NULL;
+	node->lhs = NULL;
+	node->str = str;
+	node->kind = kind;
+	return node;
+}
+
 Node* createNewNode(Node* lhs, Node* rhs, char* kind)
 {
 	Node* node = calloc(1, sizeof(Node));
@@ -50,6 +60,7 @@ Node* createNewTypeNode(Node* lhs, Node* rhs, char* typeName)
 	node->lhs = lhs;
 	node->rhs = rhs;
 	node->kind = ND_TYPE;
+	node->str = typeName;
 	return node;
 }
 

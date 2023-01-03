@@ -11,6 +11,7 @@
 #define ND_TYPE "ND_TYPE"
 #define ND_VAL "ND_VAL"
 #define ND_INIT "ND_INIT"
+#define ND_ASSIGN "ND_ASSIGN"
 
 typedef struct Node Node;
 struct Node
@@ -28,5 +29,5 @@ Node* mul(Token** curToken, Cabinet** curCabinet,Node* curNode);
 Node* add(Token** curToken, Cabinet** curCabinet, Node* curNode);
 Node* primary(Token** curToken, Cabinet** curCabinet, Node* curNode);
 Node* initializetion(Token** curToken, Cabinet** curCabinet, Node* curNode);
-
+Node* assign(Token** curToken, Cabinet** curCabinet, Node* curNode);
 #endif 

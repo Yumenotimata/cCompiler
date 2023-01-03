@@ -54,3 +54,29 @@ bool serchCabinet(Cabinet** curCabinet, char* serchName)
 	(*curCabinet) = bufCabinet;
 	return false;
 }
+
+bool handleCabinet(Cabinet** curCab, char* serchName)
+{
+	(*curCab) = (*curCab)->head;
+	while ((*curCab) != NULL)
+	{
+		if ((*curCab)->name != NULL)
+		{
+			if (!memcmp((*curCab)->name, serchName, strlen(serchName)))
+			{
+				printf("serch index was successeful\n");
+				return true;
+			}
+		}
+		else
+		{
+			printf("\n\nserch error\n\n");
+			return -1;
+		}
+		(*curCab) = (*curCab)->next;
+	}
+	printf("serch failed:'%s' was not found", serchName);
+
+
+	return false;
+}

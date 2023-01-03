@@ -89,3 +89,20 @@ void genCalculation(Node* curNode)
 
 		return false;
 	}
+
+	void genInitializetion(Node* curNode, Cabinet** curCabinet)
+	{
+		printf("‰Šú‰»\n");
+		printf("	mov [rbp-%d],0", curNode->rhs->cabinet->offset * 8);
+		return;
+	}
+
+	void genAssign(Node* curNode, Cabinet** curCabinet)
+	{
+		printf("	pop rax\n");
+		Cabinet* cabBuffer = *curCabinet;
+		handleCabinet(curCabinet, curNode->lhs->str);
+		printf("	mov [rbp-%d],rax\n",(*curCabinet)->offset * 8);
+		*curCabinet = cabBuffer;
+		return ;
+	}

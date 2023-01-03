@@ -25,6 +25,7 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 			if (isSameString((*curToken)->str, "("))
 			{//(‚©‚çŽn‚Ü‚éŽ®‚Ì—áŠOˆ—
 				node = add(curToken, curCabinet, node);
+				
 			}
 			if (isSameString((*curToken)->str, ";"))
 			{
@@ -44,13 +45,11 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 			//•Ï”‚Ì‘ã“ü‚Ìˆ—
 			if (serchCabinet(curCabinet,(*curToken)->str))
 			{
-				printf("oknari\n");
-				exit(1);
+				printf("ok\n");
+				node = assign(curToken, curCabinet, node);
+				continue;
 			}
-			else
-			{
-				printf("missed\n");
-			}
+
 		}
 
 	}
@@ -160,18 +159,26 @@ Node* initializetion(Token** curToken, Cabinet** curCabinet, Node* curNode)
 {
 	Node* node = calloc(1, sizeof(Node));
 	node->kind = ND_INIT;
-	node->str = getTypeName(curToken);
-	node->rhs = NULL;
+	node->lhs = createNewTypeNode(curNode, NULL, getTypeName(curToken));
+
 	(*curToken) = (*curToken)->next;
-	node->lhs = createVariableNode(curToken,curCabinet);
+	node->rhs = createVariableNode(curToken,curCabinet);
 	(*curToken) = (*curToken)->next;
-	(*curToken) = (*curToken)->next;
-	node->lhs->lhs = curNode;
-	node->lhs->rhs = NULL;
+	
+	
 	return node;
 }
 
 Node* assign(Token** curToken, Cabinet** curCabinet, Node* curNode)
 {
-	Node* node = calloc(1, sizeof(Node));
+	Node* node = calloc(1, sizeof(Node));	
+	node->kind = ND_ASSIGN;
+	node->lhs = createStrNode((*curToken)->str,ND_VAL);
+	node->lhs->lhs = curNode;
+	node->lhs->rhs = NULL;
+	(*curToken) = (*curToken)->next;
+	(*curToken) = (*curToken)->next;
+	node->rhs = add(curToken, curCabinet, NULL);
+	
+	return node;
 }
