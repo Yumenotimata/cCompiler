@@ -1,5 +1,24 @@
 #include "Compiler.h"
 
+void genCalculation_s(Node* curNode)
+{
+	if (curNode == NULL)
+	{
+		return;
+	}
+
+	genCalculation_s(curNode->rhs);
+	genCalculation_s(curNode->lhs);
+
+	if (ifCalculation(curNode))
+	{
+		genCalculation(curNode);
+		return;
+	}
+
+	return;
+}
+
 void genCalculation(Node* curNode)
 {
 	if (curNode->lhs->kind != ND_NUM)
@@ -90,16 +109,35 @@ void genCalculation(Node* curNode)
 		return false;
 	}
 
+	bool isValue(Node *curNode)
+	{
+		if (curNode->kind == ND_NUM && curNode->lhs == NULL && curNode->rhs == NULL)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	void genInitializetion(Node* curNode, Cabinet** curCabinet)
 	{
 		printf("‰Šú‰»\n");
-		printf("	mov [rbp-%d],0", curNode->rhs->cabinet->offset * 8);
+		printf("	mov [rbp-%d],0\n", curNode->rhs->cabinet->offset * 8);
 		return;
 	}
 
 	void genAssign(Node* curNode, Cabinet** curCabinet)
 	{
-		printf("	pop rax\n");
+		printf("genAssign:curNode->rhs->kind = %s\n", curNode->rhs->kind);
+		if (curNode->rhs->kind != ND_NUM)
+		{
+			genCalculation_s(curNode->rhs, curCabinet);
+			printf("	pop rax\n");
+		}
+		else
+		{
+			printf("	mov rax,%d\n", curNode->rhs->val);
+		}
 		Cabinet* cabBuffer = *curCabinet;
 		handleCabinet(curCabinet, curNode->lhs->str);
 		printf("	mov [rbp-%d],rax\n",(*curCabinet)->offset * 8);

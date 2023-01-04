@@ -12,11 +12,12 @@ void GenerateCode(Node* curNode, Cabinet** curCabinet)
 
 	printf("%s\n", curNode->kind);
 
-	if (ifCalculation(curNode))
+	/*if (ifCalculation(curNode))
 	{
 		genCalculation(curNode);
 		return;
-	}
+	}*/
+
 	if (curNode->kind == ND_INIT)
 	{
 		genInitializetion(curNode, curCabinet);
@@ -24,9 +25,8 @@ void GenerateCode(Node* curNode, Cabinet** curCabinet)
 	}
 	if (curNode->kind == ND_ASSIGN)
 	{
-		printf("	pop rax\n");
 		genAssign(curNode, curCabinet);
-		exit(1);
+		return;
 	}
 		
 	return;
