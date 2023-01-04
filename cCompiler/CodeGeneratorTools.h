@@ -2,8 +2,8 @@
 #define __CODE_GENERATOR_TOOLS_H
 #include "Compiler.h"
 
-void genCalculation(Node* curNode);
-void genCalculation_s(Node* curNode);
+void genCalculation(Node* curNode,Cabinet **curCabinet);
+void genCalculation_s(Node* curNode,Cabinet **curCabinet);
 void genInitializetion(Node* curNode, Cabinet** curCabinet);
 void genAssign(Node* curNode, Cabinet** curCabinet);
 bool ifCalculation(Node* curNode);

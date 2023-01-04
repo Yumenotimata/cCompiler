@@ -22,6 +22,7 @@ int main(void)
 	}
 	token = ptr;
 	Node* node = parse(&token,&cabinet);
+
 	GenerateCode(node, &cabinet);
 	return 0;
 }

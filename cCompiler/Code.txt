@@ -1,8 +1,6 @@
-int node;
-node = 2*3+5/((4-5)+3);
-int ass;
-ass = 4;
-node = 5;
-ass = 345*3+4/((3+4)+4);
-int af;
+int a;
+int b;
+int c;
+c = a*(3+b)/3*c/(3+a);
+
 

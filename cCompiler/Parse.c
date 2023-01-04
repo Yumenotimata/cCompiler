@@ -102,7 +102,7 @@ Node* primary(Token** curToken, Cabinet** curCabinet, Node* curNode)
 		}
 		else
 		{
-			printf("parse error\n");
+			//printf("parse error\n");
 			exit(1);
 		}
 	}
@@ -110,6 +110,12 @@ Node* primary(Token** curToken, Cabinet** curCabinet, Node* curNode)
 	{
 
 		node = createNumNode((*curToken)->val);
+		(*curToken) = (*curToken)->next;
+		return node;
+	}
+	if ((*curToken)->kind == TK_STR)
+	{
+		node = createStrNode((*curToken)->str, ND_VAL);
 		(*curToken) = (*curToken)->next;
 		return node;
 	}

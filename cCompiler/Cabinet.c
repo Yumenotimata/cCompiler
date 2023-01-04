@@ -46,11 +46,13 @@ bool serchCabinet(Cabinet** curCabinet, char* serchName)
 		{
 			printf("Cabinetの値が(null)です。\n");
 			(*curCabinet) = bufCabinet;
+			exit(1);
 			return false;
 		}
 		(*curCabinet) = (*curCabinet)->next;
 	}
 	printf("サーチエラー：'%s'は見つかりませんでした\n");
+	exit(1);
 	(*curCabinet) = bufCabinet;
 	return false;
 }
@@ -64,19 +66,19 @@ bool handleCabinet(Cabinet** curCab, char* serchName)
 		{
 			if (!memcmp((*curCab)->name, serchName, strlen(serchName)))
 			{
-				printf("serch index was successeful\n");
+				//printf("serch was successeful\n");
 				return true;
 			}
 		}
 		else
 		{
 			printf("\n\nserch error\n\n");
-			return -1;
+			exit(1);
 		}
 		(*curCab) = (*curCab)->next;
 	}
 	printf("serch failed:'%s' was not found", serchName);
-
+	exit(1);
 
 	return false;
 }
