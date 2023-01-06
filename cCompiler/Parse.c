@@ -5,7 +5,6 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 	printf("パース開始\n");
 	Node* node = NULL;
 
-	//プロローグ
 
 	while ((*curToken)->kind != TK_END)
 	{
@@ -36,6 +35,12 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 
 		if ((*curToken)->kind == TK_STR)
 		{
+			if (isSameString((*curToken)->str, "if"))
+			{
+				printf("this okenomi\n");
+				ifStatement(curToken, curCabinet, node);
+				exit(1);
+			}
 			//変数の初期化の処理
 			if (isVariableType(curToken))
 			{
@@ -159,6 +164,27 @@ Node* add(Token** curToken, Cabinet** curCabinet, Node* curNode)
 	node->lhs = curNode;
 
 	return ptr;
+}
+
+Node* ifStatement(Token** curToken, Cabinet** curCabinet, Node* curNode)
+{
+	(*curToken) = (*curToken)->next;
+	(*curToken) = (*curToken)->next;
+	Node* node = condition(curToken, curCabinet, curNode);
+	exit(1);
+}
+
+Node* condition(Token** curToken, Cabinet** curCabinet, Node* curNode)
+{
+	Node* conditionNode = NULL;
+
+	//先読み
+	if (isSameString((*curToken)->next->str, "=="))
+	{
+		conditionNode = createConditionNode(curToken, curCabinet, curNode,ND_EQU);
+	}
+
+
 }
 
 Node* initializetion(Token** curToken, Cabinet** curCabinet, Node* curNode)

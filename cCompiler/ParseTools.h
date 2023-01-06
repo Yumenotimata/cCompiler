@@ -8,6 +8,7 @@ Node* createNewNode(Node* lhs, Node* rhs, char* kind);
 char* getTypeName(Token** curToken);
 Node* createNewTypeNode(Node* lhs, Node* rhs, char* typeName);
 Node* createVariableNode(Token** opToken, Cabinet** curCab);
+Node* createConditionNode(Token** curToken, Cabinet** curCabinet, Node* curNode, char* nodeKind);
 Node* createStrNode(char* str, char* kind);
 
 #endif

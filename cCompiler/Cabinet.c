@@ -38,8 +38,11 @@ bool serchCabinet(Cabinet** curCabinet, char* serchName)
 			if (!memcmp((*curCabinet)->name, serchName, strlen(serchName)))
 			{
 				//エントリポイントの復元
-				(*curCabinet) = bufCabinet;
-				return true;
+				if (strlen((*curCabinet)->name) == strlen(serchName))
+				{
+					(*curCabinet) = bufCabinet;
+					return true;
+				}
 			}
 		}
 		else

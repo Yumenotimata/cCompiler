@@ -90,3 +90,15 @@ Node* createVariableNode(Token** opToken, Cabinet** curCab)
 
 	return retNode;
 }
+
+Node* createConditionNode(Token** curToken, Cabinet** curCabinet, Node* curNode,char *nodeKind)
+{
+	Node* conditionNode = NULL;
+
+	Node *lhsNode = primary(curToken, curCabinet, curNode);
+	(*curToken) = (*curToken)->next;
+	Node *rhsNode = primary(curToken, curCabinet, curNode);
+	conditionNode = createNewNode(lhsNode, rhsNode, nodeKind);
+
+	return conditionNode;
+}

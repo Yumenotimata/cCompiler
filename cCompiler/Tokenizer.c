@@ -17,18 +17,22 @@ Token* tokenize(FILE* fp)
 		{
 			setNumToken(&curToken,&code);
 			makeNewToken(&curToken);
+			printf("%d\n",curToken->val);
 			continue;
 		}
 		if (isSymbol(&code))
 		{
 			setSymToken(&curToken, &code);
+			printf("isSymbol:%s\n", curToken->str);
 			makeNewToken(&curToken);
 			continue;
 		}
 		if (isString(&code))
 		{
 			setStrToken(&curToken, &code);
+			printf("isString:%s\n", curToken->str);
 			makeNewToken(&curToken);
+			
 			continue;
 		}
 		//(code)++;

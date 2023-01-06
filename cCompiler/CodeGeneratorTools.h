@@ -4,6 +4,7 @@
 
 void genCalculation(Node* curNode,Cabinet **curCabinet);
 void genCalculation_s(Node* curNode,Cabinet **curCabinet);
+void genCalculation_s_s(Node* curNode, Cabinet** curCabinet);
 void genInitializetion(Node* curNode, Cabinet** curCabinet);
 void genAssign(Node* curNode, Cabinet** curCabinet);
 bool ifCalculation(Node* curNode);

@@ -19,6 +19,61 @@ void genCalculation_s(Node* curNode,Cabinet **curCabinet)
 	return;
 }
 
+void genCalculation_s_s(Node* curNode, Cabinet** curCabinet)
+{
+	if (curNode == NULL)
+	{
+		return;
+	}
+	if (curNode->kind == ND_VAL)
+	{
+		Cabinet* cabBuffer = *curCabinet;
+		handleCabinet(curCabinet, curNode->str);
+		printf("	push [rbp-%d]\n", (*curCabinet)->offset * 8);
+		*curCabinet = cabBuffer;
+		return;
+	}
+	if (curNode->kind == ND_NUM)
+	{
+		printf("	push %d\n", curNode->val);
+		return;
+	}
+
+	genCalculation_s_s(curNode->lhs,curCabinet);
+	genCalculation_s_s(curNode->rhs,curCabinet);
+
+	printf("genCalculation_s_s:%s\n", curNode->kind);
+
+	printf("	pop rdi\n");
+	printf("	pop rax\n");
+
+	if (curNode->kind == ND_KAKE)
+	{
+		printf("	mul rax,rdi\n");
+		printf("	push rax\n");
+		return;
+	}
+	if (curNode->kind == ND_WARI)
+	{
+		printf("	div rax,rdi\n");
+		printf("	push rax\n");
+		return;
+	}
+	if (curNode->kind == ND_ADD)
+	{
+		printf("	add rax,rdi\n");
+		printf("	push rax\n");
+		return;
+	}
+	if (curNode->kind == ND_SUB)
+	{
+		printf("	sub rax,rdi\n");
+		printf("	push rax\n");
+		return;
+	}
+	
+}
+
 void genCalculation(Node* curNode,Cabinet **curCabinet)
 {
 	if (curNode->lhs->kind == ND_VAL)
@@ -147,16 +202,16 @@ void genCalculation(Node* curNode,Cabinet **curCabinet)
 		printf("genAssign:curNode->rhs->kind = %s\n", curNode->rhs->kind);
 		if (curNode->rhs->kind != ND_NUM)
 		{
-			genCalculation_s(curNode->rhs, curCabinet);
+			genCalculation_s_s(curNode->rhs, curCabinet);
 			printf("	pop rax\n");
 		}
 		else
 		{
-			printf("heere\n");
+			//printf("heere\n");
 			printf("	mov rax,%d\n", curNode->rhs->val);
 		}
 		Cabinet* cabBuffer = *curCabinet;
-		printf("error point %s\n", curNode->lhs->str);
+		//printf("error point %s\n", curNode->lhs->str);
 		handleCabinet(curCabinet, curNode->lhs->str);
 		printf("	mov [rbp-%d],rax\n",(*curCabinet)->offset * 8);
 		*curCabinet = cabBuffer;

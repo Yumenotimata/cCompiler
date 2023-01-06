@@ -70,6 +70,18 @@ bool isSymbol(char** input)
 	{
 		return true;
 	}
+	else if ((**input) == '{')
+	{
+		return true;
+	}
+	else if ((**input) == '}')
+	{
+		return true;
+	}
+	else if ((**input) == '!')
+	{
+		return true;
+	}
 
 	return false;
 }
