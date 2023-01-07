@@ -8,6 +8,15 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 
 	while ((*curToken)->kind != TK_END)
 	{
+		if ((*curToken)->kind == TK_SYMBOL)
+		{
+			if (isSameString((*curToken)->str, "}"))
+			{
+				printf("parse:}\n");
+				break;
+			}
+		}
+
 		if ((*curToken)->kind == TK_NUM)
 		{
 			//æ“Ç‚Ý
@@ -38,8 +47,10 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 			if (isSameString((*curToken)->str, "if"))
 			{
 				printf("this okenomi\n");
-				ifStatement(curToken, curCabinet, node);
-				exit(1);
+				node = ifStatement(curToken, curCabinet, node);
+				printf("if ended\n");
+				printf("node kind is %s\n", node->kind);
+				continue;
 			}
 			//•Ï”‚Ì‰Šú‰»‚Ìˆ—
 			if (isVariableType(curToken))
@@ -50,11 +61,14 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 			//•Ï”‚Ì‘ã“ü‚Ìˆ—
 			if (serchCabinet(curCabinet,(*curToken)->str))
 			{
-				printf("ok\n");
+				printf("assignState\n");
 				node = assign(curToken, curCabinet, node);
+				
+				printf("parse:assign returned\n");printf("%s\n", (*curToken)->str);
 				continue;
 			}
 
+			
 		}
 
 	}
@@ -107,7 +121,7 @@ Node* primary(Token** curToken, Cabinet** curCabinet, Node* curNode)
 		}
 		else
 		{
-			//printf("parse error\n");
+			printf("parse error\n");
 			exit(1);
 		}
 	}
@@ -120,19 +134,23 @@ Node* primary(Token** curToken, Cabinet** curCabinet, Node* curNode)
 	}
 	if ((*curToken)->kind == TK_STR)
 	{
+		printf("primary:%s\n", (*curToken)->str);
 		node = createStrNode((*curToken)->str, ND_VAL);
 		(*curToken) = (*curToken)->next;
+		printf("primary:return\n");
 		return node;
 	}
 }
 Node* add(Token** curToken, Cabinet** curCabinet, Node* curNode)
 {
 	Node* node = mul(curToken, curCabinet, curNode);
-
+	printf("add:mul returned\n");
 	while ((*curToken)->kind == TK_SYMBOL)
 	{
+		printf("add:(*curToken)->kind = TK_SYMBOL\n");
 		if (isSameString((*curToken)->str, "+"))
 		{
+			printf("add:+\n");
 			(*curToken) = (*curToken)->next;
 			Node* rhsNode = mul(curToken, curCabinet, curNode);
 			node = createNewNode(node, rhsNode, ND_ADD);
@@ -141,13 +159,14 @@ Node* add(Token** curToken, Cabinet** curCabinet, Node* curNode)
 		}
 		if (isSameString((*curToken)->str, "-"))
 		{
+			printf("add:-\n");
 			(*curToken) = (*curToken)->next;
 			Node* rhsNode = mul(curToken, curCabinet, curNode);
 			node = createNewNode(node, rhsNode, ND_SUB);
 			continue;
 		}
 		
-		
+		printf("add:while:break\n");
 		break;
 		
 	}
@@ -162,7 +181,7 @@ Node* add(Token** curToken, Cabinet** curCabinet, Node* curNode)
 		node = node->lhs;
 	}
 	node->lhs = curNode;
-
+	printf("add:return\n");
 	return ptr;
 }
 
@@ -170,8 +189,42 @@ Node* ifStatement(Token** curToken, Cabinet** curCabinet, Node* curNode)
 {
 	(*curToken) = (*curToken)->next;
 	(*curToken) = (*curToken)->next;
-	Node* node = condition(curToken, curCabinet, curNode);
+	Node* conditionNode = condition(curToken, curCabinet, NULL);
+	(*curToken) = (*curToken)->next;
+	(*curToken) = (*curToken)->next;
+	Node* syntaxNode = parse(curToken, curCabinet, NULL);
+	Node* jointNode = calloc(1, sizeof(Node));
+	jointNode->lhs = syntaxNode;
+	jointNode->kind = ND_IGNORE;
+
+	printf("parse returned\n");
+	Node* ifNode = createNewNode(conditionNode, jointNode, ND_IF);
+	//else‚Ì’Tõ
+	if (isSameString((*curToken)->next->str, "else"))
+	{
+		(*curToken) = (*curToken)->next;
+		(*curToken) = (*curToken)->next;
+		(*curToken) = (*curToken)->next;
+		Node* elseSyntaxNode = parse(curToken, curCabinet, NULL);
+		jointNode->rhs = elseSyntaxNode;
+		(*curToken) = (*curToken)->next;
+		Node* ptr = conditionNode;
+		while (conditionNode != NULL)
+		{
+			if (conditionNode->lhs == NULL)
+			{
+				break;
+			}
+			conditionNode = conditionNode->lhs;
+		}
+		conditionNode->lhs = curNode;
+		printf("%s\n", ifNode->kind);
+		return ifNode;
+	}
+
+	printf("else statement was not exist\n");
 	exit(1);
+
 }
 
 Node* condition(Token** curToken, Cabinet** curCabinet, Node* curNode)
@@ -183,8 +236,8 @@ Node* condition(Token** curToken, Cabinet** curCabinet, Node* curNode)
 	{
 		conditionNode = createConditionNode(curToken, curCabinet, curNode,ND_EQU);
 	}
-
-
+	
+	return conditionNode;
 }
 
 Node* initializetion(Token** curToken, Cabinet** curCabinet, Node* curNode)
@@ -210,6 +263,7 @@ Node* assign(Token** curToken, Cabinet** curCabinet, Node* curNode)
 	node->lhs->rhs = NULL;
 	(*curToken) = (*curToken)->next;
 	(*curToken) = (*curToken)->next;
+	printf("assign:%s\n", (*curToken)->str);
 	node->rhs = add(curToken, curCabinet, NULL);
 	
 	return node;

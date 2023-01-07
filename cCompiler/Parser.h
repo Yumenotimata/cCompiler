@@ -12,6 +12,7 @@
 #define ND_VAL "ND_VAL"
 #define ND_IF "ND_IF"
 #define ND_INIT "ND_INIT"
+#define ND_IGNORE "ND_IGNORE"
 #define ND_EQU "ND_EQU"
 #define ND_ASSIGN "ND_ASSIGN"
 

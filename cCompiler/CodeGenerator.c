@@ -1,8 +1,14 @@
 #include "Compiler.h"
 
+
+
 void GenerateCode(Node* curNode, Cabinet** curCabinet)
 {
 	if (curNode == NULL)
+	{
+		return;
+	}
+	if (curNode->kind == ND_IGNORE)
 	{
 		return;
 	}
@@ -10,7 +16,7 @@ void GenerateCode(Node* curNode, Cabinet** curCabinet)
 	GenerateCode(curNode->lhs, curCabinet);
 	GenerateCode(curNode->rhs, curCabinet);
 
-	printf("%s\n", curNode->kind);
+	//printf("%s\n", curNode->kind);
 
 	/*if (ifCalculation(curNode))
 	{
@@ -26,6 +32,11 @@ void GenerateCode(Node* curNode, Cabinet** curCabinet)
 	if (curNode->kind == ND_ASSIGN)
 	{
 		genAssign(curNode, curCabinet);
+		return;
+	}
+	if (curNode->kind == ND_IF)
+	{
+		genIfStatement(curNode, curCabinet);
 		return;
 	}
 		

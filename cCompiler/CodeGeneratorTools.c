@@ -1,5 +1,7 @@
 #include "Compiler.h"
 
+int labelNumber = 3;
+
 void genCalculation_s(Node* curNode,Cabinet **curCabinet)
 {
 	if (curNode == NULL)
@@ -196,6 +198,35 @@ void genCalculation(Node* curNode,Cabinet **curCabinet)
 		printf("	mov [rbp-%d],0\n", curNode->rhs->cabinet->offset * 8);
 		return;
 	}
+
+	void genIfStatement(Node* curNode, Cabinet** curCabinet)
+	{
+
+		printf("genIfStatement:%s\n", curNode->lhs->kind);
+		genCondition(curNode->lhs, curCabinet);
+		GenerateCode(curNode->rhs->lhs, curCabinet);
+		printf("	jmp .L%d\n", labelNumber);
+		printf(".L%d\n", labelNumber);
+		GenerateCode(curNode->rhs->rhs, curCabinet);
+		printf(".L%d\n", labelNumber);
+	}
+
+	void genCondition(Node* curNode, Cabinet** curCabinet)
+	{
+		genCalculation_s_s(curNode->lhs,curCabinet);
+		genCalculation_s_s(curNode->rhs, curCabinet);
+		printf("	pop rdi\n");
+		printf("	pop rax\n");
+		if (curNode->kind == ND_EQU)
+		{
+			printf("	cmp rax,rdi\n");
+			printf("	jne .L%d\n",labelNumber);
+			return;
+		}
+
+		exit(1);
+	}
+
 
 	void genAssign(Node* curNode, Cabinet** curCabinet)
 	{

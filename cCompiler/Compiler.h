@@ -19,6 +19,7 @@
 
 #define TEXT_SIZE 1024
 #define MAX_SYMBOL_SIZE 5
+#define RHS rhs
 
 /*
 * コード　＝　（構文　”；”）*
