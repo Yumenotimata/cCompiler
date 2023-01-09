@@ -199,6 +199,16 @@ void genCalculation(Node* curNode,Cabinet **curCabinet)
 		return;
 	}
 
+	void genRetStatement(Node* curNode, Cabinet** curCabinet)
+	{
+		genCalculation_s_s(curNode->lhs, curCabinet);
+		printf("	pop rax\n");
+		printf("	mov rsp, rbp\n");
+		printf("	pop rbp\n");
+		printf("	ret\n");
+		return;
+	}
+
 	void genIfStatement(Node* curNode, Cabinet** curCabinet)
 	{
 		printf("genIfStatement:%s\n", curNode->lhs->kind);

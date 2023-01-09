@@ -39,6 +39,10 @@ void GenerateCode(Node* curNode, Cabinet** curCabinet)
 		genIfStatement(curNode, curCabinet);
 		return;
 	}
+	if (curNode->kind == ND_RETURN)
+	{
+		genRetStatement(curNode, curCabinet);
+	}
 		
 	return;
 }
