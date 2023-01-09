@@ -1,7 +1,5 @@
 #include "Compiler.h"
 
-
-
 Node* parse(Token** curToken, Cabinet** curCabinet)
 {
 	printf("パース開始\n");
@@ -52,12 +50,6 @@ Node* parse(Token** curToken, Cabinet** curCabinet)
 				node = ifStatement(curToken, curCabinet, node);
 				printf("if ended\n");
 				printf("node kind is %s\n", node->kind);
-				continue;
-			}
-			if (isSameString((*curToken)->str, "return"))
-			{
-				printf("parse return\n");
-				node = retStatement(curToken, curCabinet, node);
 				continue;
 			}
 			//変数の初期化の処理
@@ -195,18 +187,6 @@ Node* add(Token** curToken, Cabinet** curCabinet, Node* curNode)
 
 int hierarchyStep = 0;
 
-Node* retStatement(Token** curToken, Cabinet** curCabinet, Node* curNode)
-{
-	Node* node = calloc(1, sizeof(Node));
-	(*curToken) = (*curToken)->next;
-	node->kind = ND_RETURN;
-	node->rhs = NULL;
-	node->lhs = add(curToken, curCabinet, NULL);
-	node->lhs->lhs = curNode;
-	node->lhs->rhs = NULL;
-	return node;
-}
-
 Node* ifStatement(Token** curToken, Cabinet** curCabinet, Node* curNode)
 {
 	(*curToken) = (*curToken)->next;
@@ -235,7 +215,6 @@ Node* ifStatement(Token** curToken, Cabinet** curCabinet, Node* curNode)
 				jointNode->rhs = elseSyntaxNode;
 				(*curToken) = (*curToken)->next;
 				Node* ptr = conditionNode;
-
 				while (conditionNode != NULL)
 				{
 					if (conditionNode->lhs == NULL)
