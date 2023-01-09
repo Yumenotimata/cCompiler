@@ -13,7 +13,6 @@
 #define ND_IF "ND_IF"
 #define ND_INIT "ND_INIT"
 #define ND_IGNORE "ND_IGNORE"
-#define ND_RETURN "ND_RETURN"
 #define ND_EQU "ND_EQU"
 #define ND_BS "ND_BS"
 #define ND_SB "ND_SB"
@@ -41,6 +40,5 @@ Node* primary(Token** curToken, Cabinet** curCabinet, Node* curNode);
 Node* initializetion(Token** curToken, Cabinet** curCabinet, Node* curNode);
 Node* condition(Token** curToken, Cabinet** curCabinet, Node* curNode);
 Node* ifStatement(Token** curToken, Cabinet** curCabinet, Node* curNode);
-Node* retStatement(Token** curToken, Cabinet** curCabinet, Node* curNode);
 Node* assign(Token** curToken, Cabinet** curCabinet, Node* curNode);
 #endif 

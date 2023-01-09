@@ -21,8 +21,7 @@ int main(void)
 		token = token->next;
 	}
 	token = ptr;
-	Node* node = parse(&token, &cabinet);
-
+	Node* node = parse(&token,&cabinet);
 	printf("gen code\n");
 	GenerateCode(node, &cabinet);
 	return 0;
