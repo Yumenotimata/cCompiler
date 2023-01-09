@@ -3,7 +3,7 @@
 int main(void)
 {
 	FILE* text;
-	fopen_s(&text,"Code.txt","r");
+	fopen_s(&text,"Code.c","r");
 
 	Cabinet* cabinet = initCabinet();
 	Token* token = tokenize(text);
@@ -22,7 +22,7 @@ int main(void)
 	}
 	token = ptr;
 	Node* node = parse(&token,&cabinet);
-
+	printf("gen code\n");
 	GenerateCode(node, &cabinet);
 	return 0;
 }

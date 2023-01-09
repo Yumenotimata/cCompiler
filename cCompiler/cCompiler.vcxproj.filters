@@ -76,7 +76,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Code.txt">
+    <Text Include="Code.c">
       <Filter>ソース ファイル</Filter>
     </Text>
   </ItemGroup>

@@ -185,6 +185,8 @@ Node* add(Token** curToken, Cabinet** curCabinet, Node* curNode)
 	return ptr;
 }
 
+int hierarchyStep = 0;
+
 Node* ifStatement(Token** curToken, Cabinet** curCabinet, Node* curNode)
 {
 	(*curToken) = (*curToken)->next;
@@ -197,30 +199,50 @@ Node* ifStatement(Token** curToken, Cabinet** curCabinet, Node* curNode)
 	jointNode->lhs = syntaxNode;
 	jointNode->kind = ND_IGNORE;
 
-	printf("parse returned\n");
+	printf("parse returned here\n");
 	Node* ifNode = createNewNode(conditionNode, jointNode, ND_IF);
+	ifNode->hierarchy = hierarchyStep;
+	hierarchyStep += 2;
 	//else‚Ì’Tõ
-	if (isSameString((*curToken)->next->str, "else"))
+	if (((*curToken)->next->kind == TK_STR))
 	{
-		(*curToken) = (*curToken)->next;
-		(*curToken) = (*curToken)->next;
-		(*curToken) = (*curToken)->next;
-		Node* elseSyntaxNode = parse(curToken, curCabinet, NULL);
-		jointNode->rhs = elseSyntaxNode;
-		(*curToken) = (*curToken)->next;
-		Node* ptr = conditionNode;
-		while (conditionNode != NULL)
+		if (isSameString((*curToken)->next->str, "else"))
 		{
-			if (conditionNode->lhs == NULL)
-			{
-				break;
-			}
-			conditionNode = conditionNode->lhs;
+			(*curToken) = (*curToken)->next;
+				(*curToken) = (*curToken)->next;
+				(*curToken) = (*curToken)->next;
+				Node* elseSyntaxNode = parse(curToken, curCabinet, NULL);
+				jointNode->rhs = elseSyntaxNode;
+				(*curToken) = (*curToken)->next;
+				Node* ptr = conditionNode;
+				while (conditionNode != NULL)
+				{
+					if (conditionNode->lhs == NULL)
+					{
+						break;
+					}
+					conditionNode = conditionNode->lhs;
+				}
+			conditionNode->lhs = curNode;
+			printf("%s\n", ifNode->kind);
+			return ifNode;
 		}
-		conditionNode->lhs = curNode;
-		printf("%s\n", ifNode->kind);
+		else
+		{
+			printf("hereherehre\n");
+			(*curToken) = (*curToken)->next;
+			jointNode->rhs = NULL;
+			return ifNode;
+		}
+	}
+	else
+	{
+		printf("hereherehre\n");
+		(*curToken) = (*curToken)->next;
+		jointNode->rhs = NULL;
 		return ifNode;
 	}
+
 
 	printf("else statement was not exist\n");
 	exit(1);
@@ -234,7 +256,22 @@ Node* condition(Token** curToken, Cabinet** curCabinet, Node* curNode)
 	//æ“Ç‚İ
 	if (isSameString((*curToken)->next->str, "=="))
 	{
+		printf("condition:==\n");
 		conditionNode = createConditionNode(curToken, curCabinet, curNode,ND_EQU);
+	}
+	else if (isSameString((*curToken)->next->str, ">"))
+	{
+		conditionNode = createConditionNode(curToken, curCabinet, curNode,ND_BS);
+		printf("condition:>\n");
+	}
+	else if (isSameString((*curToken)->next->str, "<"))
+	{
+		printf("condition:<\n");
+		conditionNode = createConditionNode(curToken, curCabinet, curNode, ND_SB);
+	}
+	else
+	{
+		printf("—áŠO\n");
 	}
 	
 	return conditionNode;

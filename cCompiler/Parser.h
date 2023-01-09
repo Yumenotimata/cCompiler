@@ -14,7 +14,12 @@
 #define ND_INIT "ND_INIT"
 #define ND_IGNORE "ND_IGNORE"
 #define ND_EQU "ND_EQU"
+#define ND_BS "ND_BS"
+#define ND_SB "ND_SB"
+
 #define ND_ASSIGN "ND_ASSIGN"
+
+extern int hierarchyStep;
 
 typedef struct Node Node;
 struct Node
@@ -24,6 +29,7 @@ struct Node
 	char* kind;
 	char* str;
 	int val;
+	int hierarchy;
 	Cabinet* cabinet;
 };
 

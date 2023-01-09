@@ -1,6 +1,6 @@
 #include "Compiler.h"
 
-int labelNumber = 3;
+//int labelNumber = 3;
 
 void genCalculation_s(Node* curNode,Cabinet **curCabinet)
 {
@@ -44,7 +44,7 @@ void genCalculation_s_s(Node* curNode, Cabinet** curCabinet)
 	genCalculation_s_s(curNode->lhs,curCabinet);
 	genCalculation_s_s(curNode->rhs,curCabinet);
 
-	printf("genCalculation_s_s:%s\n", curNode->kind);
+	//printf("genCalculation_s_s:%s\n", curNode->kind);
 
 	printf("	pop rdi\n");
 	printf("	pop rax\n");
@@ -97,7 +97,7 @@ void genCalculation(Node* curNode,Cabinet **curCabinet)
 
 	if (curNode->rhs->kind == ND_VAL)
 	{
-		printf("kind is%s\n", curNode->rhs->str);
+		//printf("kind is%s\n", curNode->rhs->str);
 		Cabinet* cabBuffer = *curCabinet;
 		handleCabinet(curCabinet, curNode->rhs->str);
 		printf("	mov rdi,[rbp-%d]\n", (*curCabinet)->offset * 8);
@@ -201,14 +201,25 @@ void genCalculation(Node* curNode,Cabinet **curCabinet)
 
 	void genIfStatement(Node* curNode, Cabinet** curCabinet)
 	{
-
 		printf("genIfStatement:%s\n", curNode->lhs->kind);
 		genCondition(curNode->lhs, curCabinet);
+		if (curNode->lhs->kind == ND_EQU)
+		{
+			printf("	jne .L%d\n", curNode->hierarchy);
+		}
+		else if (curNode->lhs->kind == ND_BS)
+		{
+			printf("	jle .L%d\n", curNode->hierarchy);
+		}
+		else if (curNode->lhs->kind == ND_SB)
+		{
+			printf("	jg .L%d\n", curNode->hierarchy);
+		}
 		GenerateCode(curNode->rhs->lhs, curCabinet);
-		printf("	jmp .L%d\n", labelNumber);
-		printf(".L%d\n", labelNumber);
+		printf("	jmp .L%d\n", curNode->hierarchy+1);
+		printf(".L%d:\n", curNode->hierarchy);
 		GenerateCode(curNode->rhs->rhs, curCabinet);
-		printf(".L%d\n", labelNumber);
+		printf(".L%d:\n", curNode->hierarchy+1);
 	}
 
 	void genCondition(Node* curNode, Cabinet** curCabinet)
@@ -217,20 +228,16 @@ void genCalculation(Node* curNode,Cabinet **curCabinet)
 		genCalculation_s_s(curNode->rhs, curCabinet);
 		printf("	pop rdi\n");
 		printf("	pop rax\n");
-		if (curNode->kind == ND_EQU)
-		{
-			printf("	cmp rax,rdi\n");
-			printf("	jne .L%d\n",labelNumber);
-			return;
-		}
 
-		exit(1);
+		printf("	cmp rax,rdi\n");
+
+		return;
 	}
 
 
 	void genAssign(Node* curNode, Cabinet** curCabinet)
 	{
-		printf("genAssign:curNode->rhs->kind = %s\n", curNode->rhs->kind);
+		//printf("genAssign:curNode->rhs->kind = %s\n", curNode->rhs->kind);
 		if (curNode->rhs->kind != ND_NUM)
 		{
 			genCalculation_s_s(curNode->rhs, curCabinet);
